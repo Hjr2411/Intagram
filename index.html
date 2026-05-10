@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* ===== CONTAINERS ===== */
+        .container {
+            display: none;
+            width: 100%;
+            max-width: 350px;
+        }
+
+        .container.active {
+            display: block;
+        }
+
+        /* ===== LOGIN PAGE ===== */
+        .login-container {
+            background: white;
+            border: 1px solid #dbdbdb;
+            border-radius: 1px;
+            padding: 40px 40px 20px;
+            text-align: center;
+        }
+
+        .instagram-logo {
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: -1.5px;
+            margin-bottom: 30px;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            color: #000;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            background-color: #fafafa;
+            border: 1px solid #dbdbdb;
+            border-radius: 5px;
+            font-size: 12px;
+            color: #262626;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #b3b3b3;
+            background-color: #fff;
+        }
+
+        .form-group input::placeholder {
+            color: #999;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 8px;
+            background-color: #0095f6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .login-button:hover {
+            background-color: #0080d0;
+        }
+
+        .login-button:disabled {
+            background-color: #b3dfff;
+            cursor: not-allowed;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: #999;
+            font-size: 13px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: #dbdbdb;
+        }
+
+        .divider::before {
+            margin-right: 10px;
+        }
+
+        .divider::after {
+            margin-left: 10px;
+        }
+
+        .facebook-login {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #385185;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: color 0.2s;
+        }
+
+        .facebook-login:hover {
+            color: #2d5aa1;
+        }
+
+        .facebook-icon {
+            width: 16px;
+            height: 16px;
+            background-color: #385185;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .forgot-password {
+            color: #385185;
+            font-size: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .forgot-password:hover {
+            color: #2d5aa1;
+        }
+
+        .signup-link {
+            background: white;
+            border: 1px solid #dbdbdb;
+            border-radius: 1px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #262626;
+        }
+
+        .signup-link a {
+            color: #0095f6;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .signup-link a:hover {
+            color: #0080d0;
+        }
+
+        /* ===== SIGNUP PAGE ===== */
+        .signup-container {
+            background: white;
+            border: 1px solid #dbdbdb;
+            border-radius: 1px;
+            padding: 40px 40px 20px;
+            text-align: center;
+        }
+
+        .signup-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #999;
+        }
+
+        .signup-subtitle {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 25px;
+        }
+
+        .back-to-login {
+            background: white;
+            border: 1px solid #dbdbdb;
+            border-radius: 1px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #262626;
+        }
+
+        .back-to-login a {
+            color: #0095f6;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .back-to-login a:hover {
+            color: #0080d0;
+        }
+
+        /* ===== DASHBOARD PAGE ===== */
+        .dashboard-container {
+            background: white;
+            border: 1px solid #dbdbdb;
+            border-radius: 1px;
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+        }
+
+        .dashboard-header {
+            margin-bottom: 40px;
+        }
+
+        .dashboard-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #262626;
+        }
+
+        .user-info {
+            background-color: #f9f9f9;
+            border: 1px solid #dbdbdb;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .user-info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .user-info-item:last-child {
+            border-bottom: none;
+        }
+
+        .user-info-label {
+            font-weight: 600;
+            color: #262626;
+        }
+
+        .user-info-value {
+            color: #999;
+        }
+
+        .logout-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #0095f6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .logout-button:hover {
+            background-color: #0080d0;
+        }
+
+        /* ===== ERROR MESSAGE ===== */
+        .error-message {
+            background-color: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 12px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* ===== SUCCESS MESSAGE ===== */
+        .success-message {
+            background-color: #d4edda;
+            border: 1px solid #28a745;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 12px;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .login-container,
+            .signup-container,
+            .dashboard-container {
+                padding: 20px;
+                border: none;
+                background-color: #fafafa;
+            }
+
+            .instagram-logo {
+                font-size: 28px;
+                margin-bottom: 20px;
+            }
+
+            .form-group input {
+                font-size: 14px;
+                padding: 12px;
+            }
+
+            .signup-link,
+            .back-to-login {
+                border: none;
+                background-color: #fafafa;
+                padding: 15px 0;
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="container active">
+        <div class="login-container">
+            <div class="instagram-logo">Instagram</div>
+            
+            <div class="error-message" id="loginError"></div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <input 
+                        type="text" 
+                        id="loginUsername" 
+                        placeholder="Telefone, nome de usuário ou email" 
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <input 
+                        type="password" 
+                        id="loginPassword" 
+                        placeholder="Senha" 
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="login-button" id="loginBtn">Entrar</button>
+            </form>
+
+            <div class="divider">ou</div>
+
+            <div class="facebook-login" id="facebookLogin">
+                <div class="facebook-icon">f</div>
+                Entrar com o Facebook
+            </div>
+
+            <a href="#" class="forgot-password" id="forgotPasswordLink">Esqueceu a senha?</a>
+        </div>
+
+        <div class="signup-link">
+            Não tem uma conta? 
+            <a href="#" id="goToSignup">Cadastre-se</a>
+        </div>
+    </div>
+
+    <!-- SIGNUP PAGE -->
+    <div id="signupPage" class="container">
+        <div class="signup-container">
+            <div class="instagram-logo">Instagram</div>
+            
+            <div class="signup-title">Cadastre-se para ver fotos e vídeos dos seus amigos.</div>
+            <div class="signup-subtitle">Use seu email para se cadastrar.</div>
+
+            <div class="error-message" id="signupError"></div>
+            <div class="success-message" id="signupSuccess"></div>
+
+            <form id="signupForm">
+                <div class="form-group">
+                    <input 
+                        type="email" 
+                        id="signupEmail" 
+                        placeholder="Email" 
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <input 
+                        type="text" 
+                        id="signupName" 
+                        placeholder="Nome completo" 
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <input 
+                        type="text" 
+                        id="signupUsername" 
+                        placeholder="Nome de usuário" 
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <input 
+                        type="password" 
+                        id="signupPassword" 
+                        placeholder="Senha" 
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="login-button" id="signupBtn">Cadastrar</button>
+            </form>
+        </div>
+
+        <div class="back-to-login">
+            Já tem uma conta? 
+            <a href="#" id="goToLogin">Faça login</a>
+        </div>
+    </div>
+
+    <!-- DASHBOARD PAGE -->
+    <div id="dashboardPage" class="container">
+        <div class="dashboard-container">
+            <div class="dashboard-header">
+                <div class="dashboard-title">Bem-vindo!</div>
+            </div>
+
+            <div class="user-info">
+                <div class="user-info-item">
+                    <span class="user-info-label">Email:</span>
+                    <span class="user-info-value" id="dashboardEmail">-</span>
+                </div>
+                <div class="user-info-item">
+                    <span class="user-info-label">Nome:</span>
+                    <span class="user-info-value" id="dashboardName">-</span>
+                </div>
+                <div class="user-info-item">
+                    <span class="user-info-label">Usuário:</span>
+                    <span class="user-info-value" id="dashboardUsername">-</span>
+                </div>
+            </div>
+
+            <button class="logout-button" id="logoutBtn">Sair</button>
+        </div>
+    </div>
+
+    <script>
+        // ===== STORAGE KEYS =====
+        const STORAGE_KEY = 'instagram_users';
+        const SESSION_KEY = 'instagram_session';
+
+        // ===== INITIALIZE STORAGE =====
+        function initializeStorage() {
+            if (!localStorage.getItem(STORAGE_KEY)) {
+                const defaultUsers = [
+                    {
+                        id: 1,
+                        email: 'teste@email.com',
+                        name: 'Usuário Teste',
+                        username: 'usuarioteste',
+                        password: 'senha123' // Em produção seria hasheado
+                    }
+                ];
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultUsers));
+            }
+        }
+
+        // ===== PAGE NAVIGATION =====
+        function showPage(pageId) {
+            document.querySelectorAll('.container').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // ===== ERROR HANDLING =====
+        function showError(elementId, message) {
+            const errorEl = document.getElementById(elementId);
+            errorEl.textContent = message;
+            errorEl.classList.add('show');
+            setTimeout(() => {
+                errorEl.classList.remove('show');
+            }, 5000);
+        }
+
+        function showSuccess(elementId, message) {
+            const successEl = document.getElementById(elementId);
+            successEl.textContent = message;
+            successEl.classList.add('show');
+            setTimeout(() => {
+                successEl.classList.remove('show');
+            }, 3000);
+        }
+
+        // ===== LOGIN LOGIC =====
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            if (!username || !password) {
+                showError('loginError', 'Por favor, preencha todos os campos');
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem(STORAGE_KEY));
+            const user = users.find(u => 
+                (u.username === username || u.email === username) && u.password === password
+            );
+
+            if (user) {
+                // Criar sessão
+                const session = {
+                    userId: user.id,
+                    email: user.email,
+                    name: user.name,
+                    username: user.username,
+                    loginTime: new Date().getTime()
+                };
+                localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+
+                // Limpar formulário
+                document.getElementById('loginForm').reset();
+                document.getElementById('loginError').classList.remove('show');
+
+                // Ir para dashboard
+                loadDashboard();
+                showPage('dashboardPage');
+            } else {
+                showError('loginError', 'Usuário ou senha inválidos');
+            }
+        });
+
+        // ===== SIGNUP LOGIC =====
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('signupEmail').value.trim();
+            const name = document.getElementById('signupName').value.trim();
+            const username = document.getElementById('signupUsername').value.trim();
+            const password = document.getElementById('signupPassword').value;
+
+            // Validações
+            if (!email || !name || !username || !password) {
+                showError('signupError', 'Por favor, preencha todos os campos');
+                return;
+            }
+
+            if (password.length < 6) {
+                showError('signupError', 'A senha deve ter pelo menos 6 caracteres');
+                return;
+            }
+
+            if (!email.includes('@')) {
+                showError('signupError', 'Email inválido');
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem(STORAGE_KEY));
+
+            // Verificar se email já existe
+            if (users.some(u => u.email === email)) {
+                showError('signupError', 'Este email já está cadastrado');
+                return;
+            }
+
+            // Verificar se username já existe
+            if (users.some(u => u.username === username)) {
+                showError('signupError', 'Este nome de usuário já está em uso');
+                return;
+            }
+
+            // Criar novo usuário
+            const newUser = {
+                id: Math.max(...users.map(u => u.id), 0) + 1,
+                email: email,
+                name: name,
+                username: username,
+                password: password
+            };
+
+            users.push(newUser);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
+
+            // Limpar formulário
+            document.getElementById('signupForm').reset();
+            document.getElementById('signupError').classList.remove('show');
+
+            showSuccess('signupSuccess', 'Cadastro realizado com sucesso! Faça login para continuar.');
+
+            setTimeout(() => {
+                showPage('loginPage');
+            }, 2000);
+        });
+
+        // ===== DASHBOARD LOGIC =====
+        function loadDashboard() {
+            const session = JSON.parse(localStorage.getItem(SESSION_KEY));
+            if (session) {
+                document.getElementById('dashboardEmail').textContent = session.email;
+                document.getElementById('dashboardName').textContent = session.name;
+                document.getElementById('dashboardUsername').textContent = '@' + session.username;
+            }
+        }
+
+        // ===== LOGOUT LOGIC =====
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            localStorage.removeItem(SESSION_KEY);
+            showPage('loginPage');
+            document.getElementById('loginForm').reset();
+        });
+
+        // ===== NAVIGATION EVENTS =====
+        document.getElementById('goToSignup').addEventListener('click', function(e) {
+            e.preventDefault();
+            showPage('signupPage');
+            document.getElementById('signupForm').reset();
+        });
+
+        document.getElementById('goToLogin').addEventListener('click', function(e) {
+            e.preventDefault();
+            showPage('loginPage');
+            document.getElementById('loginForm').reset();
+        });
+
+        // ===== FACEBOOK LOGIN (Placeholder) =====
+        document.getElementById('facebookLogin').addEventListener('click', function() {
+            alert('Funcionalidade de login com Facebook não implementada neste clone');
+        });
+
+        // ===== FORGOT PASSWORD (Placeholder) =====
+        document.getElementById('forgotPasswordLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Funcionalidade de recuperação de senha não implementada neste clone');
+        });
+
+        // ===== CHECK SESSION ON PAGE LOAD =====
+        window.addEventListener('load', function() {
+            initializeStorage();
+
+            const session = localStorage.getItem(SESSION_KEY);
+            if (session) {
+                loadDashboard();
+                showPage('dashboardPage');
+            } else {
+                showPage('loginPage');
+            }
+        });
+    </script>
+</body>
+</html>
